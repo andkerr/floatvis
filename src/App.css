@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.square-active {
+    background-color: rgb(83, 226, 83);
+    height: 100px;
+    width: 100px;
+    border: black solid;
+    border-width: 1px;
+    margin: -1px;
+    font-size: 32px;
+}
+
+.square-inactive {
+    background-color: rgb(214, 97, 97);
+    height: 100px;
+    width: 100px;
+    border: black solid;
+    border-width: 1px;
+    margin: -1px;
+    font-size: 32px;
+}
