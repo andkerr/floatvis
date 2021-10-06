@@ -1,51 +1,64 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
 class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {isClicked: false};
-
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick() {
-        this.setState(prevState => ({
-            isClicked: !prevState.isClicked
-        }));
-    }
-
     render() {
         return (
-            <button className={this.state.isClicked ? 'square-active' : 'square-inactive'} onClick={this.handleClick}>
-                {this.state.isClicked ? '1' : '0'}
+            <button className={this.props.className} onClick={() => this.props.onClick()}>
+                {this.props.value}
             </button>
         );
     }
 }
 
-class Toggle extends React.Component {
+class Calc extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isToggleOn: true};
+        this.state = {
+            sum: 0,
+            squares: Array(this.props.length).fill(false),
+        };
 
         this.handleClick = this.handleClick.bind(this);
+        this.renderSquare = this.renderSquare.bind(this);
     }
 
-    handleClick() {
-        this.setState(prevState => ({
-            isToggleOn: !prevState.isToggleOn
-        }));
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        squares[i] = !this.state.squares[i];
+        const sum = squares[i] ? this.state.sum + 1 : this.state.sum - 1
+        this.setState({
+            squares: squares,
+            sum: sum
+        });
+    }
+
+    renderSquare(i) {
+        const isClicked = this.state.squares[i];
+        return (
+            <Square
+                onClick={() => this.handleClick(i)}
+                value={isClicked ? '1' : '0'}
+                className = {isClicked ? 'square-active' : 'square-inactive'}
+            />
+        );
     }
 
     render() {
+        const sum = this.state.sum;
         return (
-            <button onClick={this.handleClick}>
-                {this.state.isToggleOn ? 'OFF' : 'ON'}
-            </button>
+            <div>
+                <div>{sum}</div>
+                <div>
+                    {this.renderSquare(0)}
+                    {this.renderSquare(1)}
+                    {this.renderSquare(2)}
+                    {this.renderSquare(3)}
+                </div>
+            </div>
         );
     }
+
 }
 
 function App() {
@@ -66,9 +79,7 @@ function App() {
         </a>
       </header> */}
       <div>
-        <Square />
-        <Square />
-        <Square />
+          <Calc length={4} />
       </div>
     </div>
   );
